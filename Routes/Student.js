@@ -55,4 +55,26 @@ router.post('/', async (req, res) => {
 
 })
 
+
+
+router.patch('/:id', async(req, res) => {
+    const result = await Student.findByIdAndUpdate(
+        req.params.id,
+        { $set: { isActive: req.body.isActive } },
+        { new: true } // to return the updated document
+      );
+  
+      res.json(result);
+})
+
+router.delete('/:id', async(req, res) => {
+    const result = await Student.deleteOne({ _id: req.params.id })
+
+    if (result.deletedCount === 0)
+        res.status(404).json({ 'error': "Not Found" })
+
+    res.json({"result":"Deleted Successfully !"})
+})
+
+
 module.exports=router
