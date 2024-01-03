@@ -5,7 +5,7 @@ const Student=require('../Models/Student')
 
 
 
-
+//------------------------------------------------Get-------------------------------------------------------------
 
 router.get('/', async(req,res) => {
     try {
@@ -28,6 +28,18 @@ router.get('/getSelectedFieldsOnly', async(req,res) => {
     }
 })
 
+router.get('/:university', async(req,res) => {
+     //to return the selected fields only the route should not be placed after a route that requires an objectId (id)
+    try {
+        const student= await Student.find({university:req.params.university}).select('name -_id').limit(2) // you can omit limit(1)
+        res.json(student)
+
+    } catch (err) {
+        res.send(err)
+    }
+})
+
+
 router.get('/:id', async(req,res) => {
     try {
         const student= await Student.findById(req.params.id)
@@ -47,11 +59,8 @@ router.get('/getByRollNumber/:rollNumber', async(req,res) => {
         res.send(err)
     }
 })
-
-
-
-
-
+  
+    //------------------------------------------------Post------------------------------------------------------------
 
 router.post('/', async (req, res) => {
     const student = new Student({
@@ -76,7 +85,7 @@ router.post('/', async (req, res) => {
 
 })
 
-
+    //------------------------------------------------Update------------------------------------------------------------
 
 router.patch('/:id', async(req, res) => {
 
@@ -111,6 +120,8 @@ router.patch('/:id', async(req, res) => {
 
 
     })
+
+    //------------------------------------------------Delete------------------------------------------------------------
 
 router.delete('/:id', async(req, res) => {
     const result = await Student.deleteOne({ _id: req.params.id })
