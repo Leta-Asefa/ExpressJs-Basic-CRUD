@@ -2,6 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Student=require('../Models/Student')
 
+
+
+
+
+
 router.get('/', async(req,res) => {
     try {
         const students= await Student.find()
@@ -10,8 +15,17 @@ router.get('/', async(req,res) => {
     } catch (err) {
         res.send(err)
     }
-})
+}) 
+ 
+router.get('/getSelectedFieldsOnly', async(req,res) => {
+    try {
+        const student= await Student.find().select('name age university -_id')
+        res.json(student)
 
+    } catch (err) {
+        res.send(err)
+    }
+})
 
 router.get('/:id', async(req,res) => {
     try {
@@ -21,7 +35,7 @@ router.get('/:id', async(req,res) => {
     } catch (err) {
         res.send(err)
     }
-})
+}) 
 
 router.get('/getByRollNumber/:rollNumber', async(req,res) => {
     try {
@@ -32,6 +46,11 @@ router.get('/getByRollNumber/:rollNumber', async(req,res) => {
         res.send(err)
     }
 })
+
+
+
+
+
 
 router.post('/', async (req, res) => {
     const student = new Student({
