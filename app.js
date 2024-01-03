@@ -1,7 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
-const dbUrl = "mongodb://localhost:27017/Student"
+//const dbUrl = "mongodb://localhost:27017/Student"
+const dbUrl='mongodb+srv://root:0991@cluster0.dkanjkl.mongodb.net/Student'
 mongoose.connect(dbUrl)
 const connection = mongoose.connection
 connection.on('open',()=> console.log('Database Connection Established ...'))
