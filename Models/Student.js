@@ -25,6 +25,10 @@ const StudentSchema = mongoose.Schema({
     techStack: {
         type: Array,
         required:true
+    },
+    registratonDate:{
+        type:Date,
+        default:Date.now
     }
 
 })

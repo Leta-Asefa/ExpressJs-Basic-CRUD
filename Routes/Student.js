@@ -40,7 +40,8 @@ router.post('/', async (req, res) => {
         age: req.body.age,
         university: req.body.university,
         isActive: req.body.isActive,
-        techStack:req.body.techStack 
+        techStack:req.body.techStack ,
+        registratonDate:req.body.registratonDate
     })
 
 
@@ -58,14 +59,38 @@ router.post('/', async (req, res) => {
 
 
 router.patch('/:id', async(req, res) => {
-    const result = await Student.findByIdAndUpdate(
-        req.params.id,
-        { $set: { isActive: req.body.isActive } },
-        { new: true } // to return the updated document
-      );
+
+    const existingDocument = await Student.findById(req.params.id);
+
+    if (!existingDocument) {
+      return res.status(404).json({ error: 'Document not found' }); 
+    }
+
+        Object.keys(req.body).forEach((key) => {
+            existingDocument[key] = req.body[key];
+          });
+      
+          // Save the updated document
+          const updatedDocument = await existingDocument.save();
+      
+          res.json(updatedDocument);
+ 
+
+
+
+            //the way above updates only changed fields ...
+
+            //One Way of doing update
+    // const result = await Student.findByIdAndUpdate(
+    //     req.params.id,
+    //     { $set: { isActive: req.body.isActive } },
+    //     { new: true } // to return the updated document
+    //   );
   
-      res.json(result);
-})
+    //   res.json(result);
+
+
+    })
 
 router.delete('/:id', async(req, res) => {
     const result = await Student.deleteOne({ _id: req.params.id })
