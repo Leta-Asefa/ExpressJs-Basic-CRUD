@@ -18,6 +18,7 @@ router.get('/', async(req,res) => {
 }) 
  
 router.get('/getSelectedFieldsOnly', async(req,res) => {
+    //to return the selected fields only the route should not be placed after a route that requires an objectId (id)
     try {
         const student= await Student.find().select('name age university -_id')
         res.json(student)
